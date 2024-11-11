@@ -1,14 +1,27 @@
-import express from 'express';
+import 'dotenv/config'
+import express from "express";
 import mongoose from 'mongoose';
-import 'dotenv/config';
+import userRouter from './users_api/router.js'
 
+//express app
 const app = express();
 
-await mongoose.connect(process.env.MONGO_STRING , {useNewUrlParser: true, useUnifiedTopology: true})
-.then(() => {
-    console.log('App connected to database');
-    app.listen(3000,() => console.log("Server is now running at port 3000..."));
+// middleware
+app.use(express.json())
+
+//routes
+app.use('/api/user', userRouter)
+
+// listen for requests
+// connect to db
+mongoose.connect(process.env.MONGO_STRING)
+  .then(() => {
+    console.log('connected to database')
+    // listen to port
+    app.listen(process.env.PORT, () => {
+      console.log('listening for requests on port', process.env.PORT)
+    })
   })
-  .catch((error) => {
-    console.log(error);
-  });
+  .catch((err) => {
+    console.log(err)
+  }) 
