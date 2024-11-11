@@ -1,7 +1,8 @@
 import 'dotenv/config'
 import express from "express";
 import mongoose from 'mongoose';
-import userRouter from './users_api/router.js'
+import userRouter from './api_users/router.js'
+import appointmentRouter from './api_appointments/router.js';
 
 //express app
 const app = express();
@@ -11,6 +12,7 @@ app.use(express.json())
 
 //routes
 app.use('/api/user', userRouter)
+app.use('/api/appointments',appointmentRouter)
 
 // listen for requests
 // connect to db
