@@ -6,6 +6,9 @@ const Appointments = () => {
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedAppointment, setSelectedAppointment] = useState(null);
+    const [newPrescription, setNewPrescription] = useState('');
 
     useEffect(() => {
         const fetchAppointments = async () => {
@@ -27,7 +30,6 @@ const Appointments = () => {
             await axios.patch(`http://localhost:3001/api/appointments/${appointmentId}`, {
                 isDone: !currentStatus
             });
-            // Update local state to reflect the new status
             setAppointments(appointments.map((appointment) => 
                 appointment._id === appointmentId
                     ? { ...appointment, isDone: !currentStatus }
@@ -36,6 +38,45 @@ const Appointments = () => {
         } catch (err) {
             console.error('Error updating appointment status', err);
             setError('Error updating appointment status');
+        }
+    };
+
+    const handleDelete = async (appointmentId) => {
+        try {
+            await axios.delete(`http://localhost:3001/api/appointments/${appointmentId}`);
+            setAppointments(appointments.filter((appointment) => appointment._id !== appointmentId));
+        } catch (err) {
+            console.error('Error deleting appointment', err);
+            setError('Error deleting appointment');
+        }
+    };
+
+    const openModal = (appointment) => {
+        setSelectedAppointment(appointment);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setNewPrescription('');
+    };
+
+    const handleAddPrescription = async () => {
+        if (!newPrescription) return;
+
+        try {
+            await axios.patch(`http://localhost:3001/api/appointments/${selectedAppointment._id}`, {
+                prescription: [...selectedAppointment.prescription, newPrescription]
+            });
+            setAppointments(appointments.map((appointment) => 
+                appointment._id === selectedAppointment._id
+                    ? { ...appointment, prescription: [...appointment.prescription, newPrescription] }
+                    : appointment
+            ));
+            closeModal();
+        } catch (err) {
+            console.error('Error adding prescription', err);
+            setError('Error adding prescription');
         }
     };
 
@@ -57,6 +98,12 @@ const Appointments = () => {
                                     checked={appointment.isDone}
                                     onChange={() => handleStatusToggle(appointment._id, appointment.isDone)}
                                 />
+                                <button 
+                                    className="delete-button"
+                                    onClick={() => handleDelete(appointment._id)}
+                                >
+                                    X
+                                </button>
                             </div>
                             <h2>{appointment.service}</h2>
                             <p><strong>Date:</strong> {new Date(appointment.date).toLocaleString()}</p>
@@ -65,8 +112,31 @@ const Appointments = () => {
                             {appointment.prescription && appointment.prescription.length > 0 && (
                                 <p><strong>Prescription:</strong> {appointment.prescription.join(', ')}</p>
                             )}
+                            <button 
+                                className="add-prescription-button" 
+                                onClick={() => openModal(appointment)}
+                            >
+                                Add Prescription
+                            </button>
                         </div>
                     ))}
+                </div>
+            )}
+
+            {/* Modal */}
+            {isModalOpen && (
+                <div className="modal-overlay" onClick={closeModal}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <h2>Add Prescription</h2>
+                        <input 
+                            type="text"
+                            placeholder="Enter prescription"
+                            value={newPrescription}
+                            onChange={(e) => setNewPrescription(e.target.value)}
+                        />
+                        <button onClick={handleAddPrescription}>Add</button>
+                        <button onClick={closeModal}>Cancel</button>
+                    </div>
                 </div>
             )}
         </div>

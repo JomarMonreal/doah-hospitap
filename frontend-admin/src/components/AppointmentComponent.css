@@ -1,27 +1,29 @@
 /* Container styling */
 .appointments-container {
-    max-width: 800px;
+    max-width: 100vw;
     margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
     text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .appointments-list {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    text-align: left;
 }
 
-/* Card styling */
 .appointment-card {
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    position: relative; /* Enable positioning for the checkbox */
+    position: relative;
     transition: box-shadow 0.3s;
+    width: 50vw;
     text-align: left;
 }
 
@@ -29,30 +31,122 @@
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-.appointment-card h2 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.appointment-card p {
-    font-size: 1em;
-    margin: 5px 0;
-    color: #555;
-}
-
-.appointment-card strong {
-    color: #333;
-}
-
-/* Checkbox styling */
+/* Status toggle (checkbox) and delete button container */
 .status-toggle {
     position: absolute;
     top: 15px;
     right: 15px;
+    display: flex;
+    gap: 10px; /* Add space between the checkbox and the X button */
+    align-items: center;
 }
 
-.status-toggle input[type="checkbox"] {
+/* Red X delete button styling */
+.delete-button {
+    background-color: red;
+    color: white;
+    border: 2px solid white;
+    border-radius: 4px; /* Square border */
     width: 20px;
     height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+    background-color: darkred;
+}
+
+/* Status toggle checkbox styling */
+.status-toggle input[type="checkbox"] {
+    width: 20px; /* Adjust size */
+    height: 20px; /* Adjust size */
+    cursor: pointer; 
+    accent-color: #007bff;
+}
+
+.status-toggle input[type="checkbox"]:hover {
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Add prescription button */
+.add-prescription-button {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-prescription-button:hover {
+    background-color: #0056b3;
+}
+
+/* Modal Styling */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.modal-content h2 {
+    margin-bottom: 15px;
+    font-size: 1.25em;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.modal-content button {
+    padding: 8px 12px;
+    margin: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.modal-content button:first-child {
+    background-color: #007bff;
+    color: white;
+}
+
+.modal-content button:last-child {
+    background-color: #ccc;
+    color: black;
+}
+
+.modal-content button:first-child:hover {
+    background-color: #0056b3;
+}
+
+.modal-content button:last-child:hover {
+    background-color: #aaa;
 }
