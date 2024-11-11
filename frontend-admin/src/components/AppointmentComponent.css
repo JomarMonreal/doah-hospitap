@@ -4,14 +4,14 @@
     margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
-    text-align: left; /* Ensures text is left-aligned within the container */
+    text-align: left;
 }
 
 .appointments-list {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    text-align: left; /* Ensures text is left-aligned within the list */
+    text-align: left;
 }
 
 /* Card styling */
@@ -20,8 +20,9 @@
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    position: relative; /* Enable positioning for the checkbox */
     transition: box-shadow 0.3s;
-    text-align: left; /* Ensures all text within the card is left-aligned */
+    text-align: left;
 }
 
 .appointment-card:hover {
@@ -42,4 +43,16 @@
 
 .appointment-card strong {
     color: #333;
+}
+
+/* Checkbox styling */
+.status-toggle {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.status-toggle input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
 }
