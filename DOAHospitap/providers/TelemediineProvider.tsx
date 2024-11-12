@@ -1,4 +1,5 @@
-import React, { createContext, ReactNode, useState } from 'react';
+import React, { createContext, ReactNode, useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Define a type for the Telemedicine object
 interface Telemedicine {
@@ -41,6 +42,37 @@ const TelemedicineProvider: React.FC<TelemedicineProviderProps> = ({ children })
     hours: 0,
     duration: ''
   });
+
+  // Fetch the telemedicineList from AsyncStorage on component mount
+  useEffect(() => {
+    const fetchTelemedicineList = async () => {
+      try {
+        const storedData = await AsyncStorage.getItem('telemedicineList');
+        if (storedData) {
+          setTelemedicineList(JSON.parse(storedData));
+        }
+      } catch (error) {
+        console.error('Failed to fetch telemedicineList from storage:', error);
+      }
+    };
+
+    fetchTelemedicineList();
+  }, []);
+
+  // Save telemedicineList to AsyncStorage whenever it updates
+  useEffect(() => {
+    const saveTelemedicineList = async () => {
+      try {
+        await AsyncStorage.setItem('telemedicineList', JSON.stringify(telemedicineList));
+      } catch (error) {
+        console.error('Failed to save telemedicineList to storage:', error);
+      }
+    };
+
+    if (telemedicineList.length > 0) {
+      saveTelemedicineList();
+    }
+  }, [telemedicineList]);
 
   return (
     <TelemedicineContext.Provider
