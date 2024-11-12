@@ -1,10 +1,14 @@
+import { UserContext } from '@/providers/UserProvider';
 import { LinearGradient } from 'expo-linear-gradient';
-import React, { useState } from 'react';
+import { useRouter } from 'expo-router';
+import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
+  const { setUser } = useContext(UserContext);
 
   const onSubmit = () => {
     if (!email || !password) {
@@ -22,9 +26,17 @@ export default function Login() {
       return;
     }
 
+    setUser({
+        id: '',
+        name: 'Arra',
+        bday: '1981-01-01T00:00:00.000Z',
+        gender: 'Female',
+        email: email,
+        password: password
+    })
+
     // Perform other validations as needed
-    Alert.alert('Form Data', JSON.stringify({ email, password }));
-    // Handle login functionality here
+    router.push("/home");
   };
 
   return (

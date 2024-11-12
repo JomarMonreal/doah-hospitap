@@ -6,20 +6,20 @@ export default function Index() {
   return (
     <LinearGradient
       colors={['#99cff8', '#f7fbff', '#99cff8']} // gradient colors
-      style={styles.background}
+      style={baseStyles.background}
     >
-      <Image source={require('../assets/images/logo.png')} style={styles.image} />
-      <Link href="/login" style={styles.button}>
+      <Image source={require('../assets/images/logo.png')} style={baseStyles.image} />
+      <Link href="/login" style={baseStyles.button}>
         Log In
       </Link>
-      <Link href="/signup" style={styles.button}>
+      <Link href="/signup" style={baseStyles.button}>
         Sign Up
       </Link>
     </LinearGradient>
   );
 }
 
-export const styles = StyleSheet.create({
+export const baseStyles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -40,6 +40,10 @@ export const styles = StyleSheet.create({
   button: {
     padding: 10,
     backgroundColor: '#6198ae',
-    color: 'white'
+    color: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    textAlign: 'center'
   }
 });
