@@ -3,10 +3,13 @@ import express from "express";
 import mongoose from 'mongoose';
 import userRouter from './api_users/router.js'
 import appointmentRouter from './api_appointments/router.js';
+import cors from 'cors';
 
 //express app
 const app = express();
 
+
+app.use(cors());
 // middleware
 app.use(express.json())
 

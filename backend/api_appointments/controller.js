@@ -1,4 +1,4 @@
-import { Appointment } from '../models/appointment.js'; // Adjust import path according to your file structure
+import { Appointment } from '../models/appointmentModel.js'; // Adjust import path according to your file structure
 
 // Get all appointments
 export const getAllAppointments = async (req, res) => {
