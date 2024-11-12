@@ -13,8 +13,13 @@ const Appointments = () => {
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/api/appointments/');
-                setAppointments(response.data);
+                const response = await axios.get('https://doah-backend.vercel.app/api/appointments/');
+                const result = []
+                for (const appointment of response.data) {
+                    const user = await axios.get('https://doah-backend.vercel.app/api/user/' + appointment.userId)
+                    result.push({...appointment, username: user.data.name })
+                }
+                setAppointments(result);
             } catch (err) {
                 setError('Error fetching appointments');
             } finally {
@@ -27,7 +32,7 @@ const Appointments = () => {
 
     const handleStatusToggle = async (appointmentId, currentStatus) => {
         try {
-            await axios.patch(`http://localhost:3001/api/appointments/${appointmentId}`, {
+            await axios.patch(`https://doah-backend.vercel.app/api/appointments/${appointmentId}`, {
                 isDone: !currentStatus
             });
             setAppointments(appointments.map((appointment) => 
@@ -43,7 +48,7 @@ const Appointments = () => {
 
     const handleDelete = async (appointmentId) => {
         try {
-            await axios.delete(`http://localhost:3001/api/appointments/${appointmentId}`);
+            await axios.delete(`https://doah-backend.vercel.app/api/appointments/${appointmentId}`);
             setAppointments(appointments.filter((appointment) => appointment._id !== appointmentId));
         } catch (err) {
             console.error('Error deleting appointment', err);
@@ -65,7 +70,7 @@ const Appointments = () => {
         if (!newPrescription) return;
 
         try {
-            await axios.patch(`http://localhost:3001/api/appointments/${selectedAppointment._id}`, {
+            await axios.patch(`https://doah-backend.vercel.app/api/appointments/${selectedAppointment._id}`, {
                 prescription: [...selectedAppointment.prescription, newPrescription]
             });
             setAppointments(appointments.map((appointment) => 
@@ -107,7 +112,7 @@ const Appointments = () => {
                             </div>
                             <h2>{appointment.service}</h2>
                             <p><strong>Date:</strong> {new Date(appointment.date).toLocaleString()}</p>
-                            <p><strong>User ID:</strong> {appointment.userId}</p>
+                            <p><strong>Patient:</strong> {appointment.username}</p>
                             <p><strong>Message:</strong> {appointment.message}</p>
                             {appointment.prescription && appointment.prescription.length > 0 && (
                                 <p><strong>Prescription:</strong> {appointment.prescription.join(', ')}</p>

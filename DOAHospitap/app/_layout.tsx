@@ -5,13 +5,10 @@ import { Stack } from "expo-router";
 
 export default function RootLayout() {
   return (
-    <UserProvider>
-      <AppointmentProvider>
+    <AppointmentProvider>
+      <UserProvider>
         <TelemedicineProvider>
-
           <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-
             <Stack.Screen name="index" options={{
                 headerTransparent: true,
                 headerTitle: '', 
@@ -62,7 +59,7 @@ export default function RootLayout() {
               }}/>
           </Stack>
         </TelemedicineProvider>
-      </AppointmentProvider>
-    </UserProvider>
+      </UserProvider>
+    </AppointmentProvider>
   );
 }

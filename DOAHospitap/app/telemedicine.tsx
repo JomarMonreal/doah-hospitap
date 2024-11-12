@@ -55,7 +55,7 @@ const TelemedicinesPage = () => {
         </TouchableOpacity>
       </LinearGradient>
 
-      <CustomBottomNav highlighted="telemedicine" />
+      <CustomBottomNav highlighted="clock" />
     </>
   );
 };

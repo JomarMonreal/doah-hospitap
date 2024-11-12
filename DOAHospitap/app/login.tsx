@@ -2,15 +2,16 @@ import { UserContext } from '@/providers/UserProvider';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false); // Loading state for button
   const router = useRouter();
-  const { setUser } = useContext(UserContext);
+  const { loginUser } = useContext(UserContext); // Accessing loginUser from context
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (!email || !password) {
       Alert.alert('Error', 'Email and password are required');
       return;
@@ -26,17 +27,20 @@ export default function Login() {
       return;
     }
 
-    setUser({
-        id: '',
-        name: 'Arra',
-        bday: '1981-01-01T00:00:00.000Z',
-        gender: 'Female',
-        email: email,
-        password: password
-    })
+    try {
+      setLoading(true); // Set loading to true when calling the login function
 
-    // Perform other validations as needed
-    router.push("/home");
+      // Call the loginUser function from context
+      await loginUser(email, password);
+
+      // Navigate to home page on successful login
+      router.push("/home");
+    } catch (error) {
+      console.error('Login failed:', error);
+      Alert.alert('Error', 'Invalid email or password');
+    } finally {
+      setLoading(false); // Reset loading state after operation
+    }
   };
 
   return (
@@ -62,7 +66,11 @@ export default function Login() {
         secureTextEntry
       />
 
-      <Button title="Submit" onPress={onSubmit} />
+      <Button
+        title={loading ? 'Logging in...' : 'Submit'} // Update button text while loading
+        onPress={onSubmit} // Call onSubmit function when button is pressed
+        disabled={loading} // Disable button while loading
+      />
     </LinearGradient>
   );
 }

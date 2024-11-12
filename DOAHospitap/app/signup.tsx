@@ -1,6 +1,9 @@
+import { UserContext } from '@/providers/UserProvider';
 import { LinearGradient } from 'expo-linear-gradient';
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, Alert, Platform } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { useRouter } from 'expo-router';
 
 export default function LoginScreen() {
   const [name, setName] = useState('');
@@ -9,7 +12,22 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const onSubmit = () => {
+  const [date, setDate] = useState<Date>(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const { registerUser } = useContext(UserContext);
+
+  const [loading, setLoading] = useState(false); // New loading state
+  const navigation = useRouter()
+
+  const onDateChange = (event: any, selectedDate?: Date) => {
+    const currentDate = selectedDate || date;
+    setShowDatePicker(Platform.OS === 'ios');
+    setDate(currentDate);
+    setBday(currentDate.toUTCString());
+  };
+
+  const onSubmit = async () => {
     if (!name || !bday || !gender || !email || !password) {
       Alert.alert('Error', 'All fields are required');
       return;
@@ -25,9 +43,24 @@ export default function LoginScreen() {
       return;
     }
 
-    // Perform other validations as needed
-    Alert.alert('Form Data', JSON.stringify({ name, bday, gender, email, password }));
-    // Handle login functionality here
+    setLoading(true); // Set loading to true when starting the registration process
+
+    try {
+      await registerUser({
+        id: '',
+        name,
+        bday,
+        gender,
+        email,
+        password,
+      });
+      navigation.navigate('/')
+      // Optionally, navigate to another screen after successful registration or show a success message
+    } catch (error) {
+      Alert.alert('Error', 'Registration failed. Please try again.');
+    } finally {
+      setLoading(false); // Reset loading to false after the registration attempt
+    }
   };
 
   return (
@@ -42,13 +75,6 @@ export default function LoginScreen() {
         placeholder="Name"
         value={name}
         onChangeText={setName}
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Birthday (UTC format)"
-        value={bday}
-        onChangeText={setBday}
       />
 
       <TextInput
@@ -74,7 +100,21 @@ export default function LoginScreen() {
         secureTextEntry
       />
 
-      <Button title="Submit" onPress={onSubmit} />
+      <Button title="Choose Birth Date" onPress={() => setShowDatePicker(true)} color="#6198AE" />
+      {showDatePicker && (
+        <DateTimePicker
+          value={date}
+          mode="date"
+          display="default"
+          onChange={onDateChange}
+        />
+      )}
+
+      <Button 
+        title={loading ? "Submitting..." : "Submit"} 
+        onPress={onSubmit} 
+        disabled={loading} // Disable button when loading
+      />
     </LinearGradient>
   );
 }
@@ -91,7 +131,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 10,
-    padding: 15
+    padding: 15,
   },
   title: {
     fontSize: 24,
@@ -106,6 +146,6 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 10,
     marginBottom: 10,
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
   },
 });

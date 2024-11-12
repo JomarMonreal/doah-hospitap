@@ -1,13 +1,16 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { AppointmentContext } from '@/providers/AppointmentsProvider';
 import CustomBottomNav from '@/components/CustomBottomNav';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 const ViewAllResults = () => {
-  const { appointmentList } = useContext(AppointmentContext);
+  const { appointmentList, setAppointment } = useContext(AppointmentContext); // Access createAppointment function
+   const navigation = useRouter();
+
 
   // Format the date to "MM/DD/YYYY" and time to "HH:MM AM/PM"
   const formatDate = (dateString: string) => {
@@ -41,12 +44,15 @@ const ViewAllResults = () => {
           data={appointmentList.filter(appointment => appointment.isDone)}
           keyExtractor={(item) => item.userId + item.date} // Use unique key for each item
           renderItem={({ item }) => (
-            <View style={styles.card}>
-              <Text style={styles.dateText}>{formatDate(item.date)}</Text>
-              <Text style={styles.serviceText}>
-                ({formatTime(item.date)}) - {item.service}
-              </Text>
-            </View>
+            <TouchableOpacity onPress={() => {navigation.navigate("/view_appointment"); setAppointment(item)}}>
+              <View style={styles.card}>
+                <Text style={styles.dateText}>{formatDate(item.date)}</Text>
+                <Text style={styles.serviceText}>
+                  ({formatTime(item.date)}) - {item.service}
+                </Text>
+              </View>
+            </TouchableOpacity>
+
           )}
           contentContainerStyle={styles.listContainer}
         />

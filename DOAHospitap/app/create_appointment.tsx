@@ -4,10 +4,12 @@ import { View, Text, StyleSheet, TextInput, Button, Platform } from 'react-nativ
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useRouter } from 'expo-router';
 import { AppointmentContext } from '@/providers/AppointmentsProvider';
+import { UserContext } from '@/providers/UserProvider';
 
 const CreateAppointment = () => {
-  const { appointment, setAppointment, appointmentList, setAppointmentList } = useContext(AppointmentContext);
-  const router = useRouter();
+  const { createAppointment, appointment } = useContext(AppointmentContext); // Access createAppointment function
+  const { user } = useContext(UserContext)
+   const router = useRouter();
   const [date, setDate] = useState<Date>(new Date());
   const [message, setMessage] = useState<string>('');
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -18,17 +20,22 @@ const CreateAppointment = () => {
     setDate(currentDate);
   };
 
-  const handleSaveAppointment = () => {
+  const handleSaveAppointment = async () => {
     const newAppointment = {
-        ...appointment,
-        isDone: false,
-        date: date.toISOString(), // Save date in UTC format
-        message: message.trim(),
-      };
-    setAppointment(newAppointment);
-    setAppointmentList([...appointmentList, newAppointment])
+      ...appointment,
+      userId: user.id,
+      isDone: false,
+      date: date.toISOString(), // Save date in UTC format
+      message: message.trim(),
+    };
 
-    router.navigate('/view_all_appointments');
+    try {
+      // Call createAppointment to add a new appointment
+      await createAppointment(newAppointment);
+      router.navigate('/view_all_appointments');
+    } catch (error) {
+      console.error("Failed to save appointment:", error);
+    }
   };
 
   return (
