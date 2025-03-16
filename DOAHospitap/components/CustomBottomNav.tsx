@@ -24,6 +24,9 @@ const CustomBottomNav = ({ highlighted = "home" }: { highlighted: string }) => {
       <TouchableOpacity onPress={() => router.navigate('/profile')} style={{ backgroundColor: highlighted !== "profile"? "#6198AE" : "white", ...styles.button }}>
         <Ionicons name="person" size={24} color={ highlighted === "profile"? "#6198AE" : "white" } />
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => router.navigate('/telekonsulta')} style={{ backgroundColor: highlighted !== "message"? "#6198AE" : "white", ...styles.button }}>
+        <MaterialCommunityIcons name="message" size={24} color={ highlighted === "message"? "#6198AE" : "white" } />
+      </TouchableOpacity>
     </View>
   );
 };

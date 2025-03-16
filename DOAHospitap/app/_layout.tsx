@@ -49,6 +49,10 @@ export default function RootLayout() {
                 headerTransparent: true,
                 headerTitle: '', 
               }}/>
+            <Stack.Screen name="telekonsulta" options={{
+                headerTransparent: true,
+                headerTitle: '', 
+              }}/>
             <Stack.Screen name="add_telemedicine" options={{
                 headerTransparent: true,
                 headerTitle: '', 
