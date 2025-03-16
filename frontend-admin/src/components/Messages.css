@@ -1,0 +1,122 @@
+/* Messages Screen Styles */
+.messages-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f0f2f5;
+    width: 100%;
+}
+
+/* User List Panel */
+.user-list {
+    width: 30%;
+    background-color: #fff;
+    border-right: 1px solid #ddd;
+    overflow-y: auto;
+}
+
+.user-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    transition: background 0.3s;
+}
+
+.user-item:hover, .user-item.active {
+    background-color: #e4e6eb;
+}
+
+.user-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+/* Chat Window */
+.chat-window {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 1rem;
+}
+
+.chat-header {
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #e4e6eb;
+    border-bottom: 1px solid #ddd;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    max-width: 60%;
+    padding: 10px 15px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+}
+
+/* Sent Messages (Patient) */
+.message.sent {
+    align-self: flex-end;
+    background-color: #0084ff;
+    color: #fff;
+}
+
+/* Received Messages (Doctor) */
+.message.received {
+    align-self: flex-start;
+    background-color: #e4e6eb;
+    color: #000;
+}
+
+/* Message Input */
+.message-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background-color: #fff;
+}
+
+.messsage-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    outline: none;
+    flex: 1
+}
+
+.message-input button {
+    margin-left: 10px;
+    padding: 10px 15px;
+    background-color: #0084ff;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.message-input button:hover {
+    background-color: #005bb5;
+}
+
+.messages-box {
+    display: flex;
+    flex-direction: column;
+    flex: 1
+}
+
+.message-input { 
+    display: flex;
+}

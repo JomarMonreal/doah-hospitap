@@ -1,10 +1,11 @@
 import './App.css';
 import Appointments from './components/AppointmentComponent';
+import Messages from './components/Messages';
 
 function App() {
   return (
     <div className="App">
-      <Appointments />
+      <Messages />
     </div>
   );
 }

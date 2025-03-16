@@ -1,4 +1,5 @@
 import { Message } from '../models/messageModel.js'; 
+import { userModel } from '../models/userModel.js';
 // Get all messages
 export const getAllMessages = async (req, res) => {
     try {
