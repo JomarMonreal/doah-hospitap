@@ -4,14 +4,17 @@
     height: 100vh;
     background-color: #f0f2f5;
     width: 100%;
+
 }
 
 /* User List Panel */
-.user-list {
+.users-list {
     width: 30%;
     background-color: #fff;
     border-right: 1px solid #ddd;
     overflow-y: auto;
+    padding: 1rem;
+
 }
 
 .user-item {
