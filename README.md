@@ -1,6 +1,8 @@
-## How to run the server?
+# Use Node Version 20.18.0
 
-Clone this repository https://github.com/JomarMonrealUPLB/Farm-to-Table.git in your local directory.
+## How to run the backend server?
+
+Clone this repository in your local directory.
 
 In your terminal, make sure that your cloned repository is the current working directory.
 
@@ -8,15 +10,17 @@ Run the following commands to start the server:
 
     cd backend
     npm install (do it once)
-    node index.js
+    node api/index.js
 
 Note: Your local server must be running at http://localhost:3000
 
 ## For App
-1. Install dependencies
+1. Navigate to DOAHospitap then Install dependencies
 
    ```bash
+   cd DOAHospitap
    npm install
+   npx expo install --fix
    ```
 
 2. Start the app
@@ -43,3 +47,13 @@ npm run reset-project
 ```
 
 This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+
+
+## For Admin Site
+
+Run the following commands to start the server:
+
+    cd 'frontend-admin'
+    npm install (do it once)
+    npm start
+    
